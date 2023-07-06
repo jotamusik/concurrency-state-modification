@@ -1,26 +1,32 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from 'react'
+import './App.css'
+import { NoConcurrencyManagementProvider } from './context/NoConcurrencyManagementContext'
+import { ConcurrencyManagementProvider } from './context/ConcurrencyManagementContext'
+import { ConcurrencyManagementExample } from './components/ConcurrencyManagementExample'
+import { NoConcurrencyManagementExample } from './components/NoConcurrencyManagementExample'
+import { ProcessProgressMap } from './commonTypes'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+export const initialConcurrencyManagementProcessProgressMap: ProcessProgressMap = {
+  '1': { progress: 1 },
+  '2': { progress: 3 },
+  '3': { progress: 5 },
 }
 
-export default App;
+export const initialNoConcurrencyManagementProcessProgressMap: ProcessProgressMap = {
+  '1': { progress: 0 },
+  '2': { progress: 2 },
+  '3': { progress: 4 },
+}
+
+export const App = () => {
+  return (
+    <div className="App">
+      <NoConcurrencyManagementProvider initialValue={initialNoConcurrencyManagementProcessProgressMap}>
+        <NoConcurrencyManagementExample/>
+      </NoConcurrencyManagementProvider>
+      <ConcurrencyManagementProvider initialValue={initialConcurrencyManagementProcessProgressMap}>
+        <ConcurrencyManagementExample/>
+      </ConcurrencyManagementProvider>
+    </div>
+  )
+}
