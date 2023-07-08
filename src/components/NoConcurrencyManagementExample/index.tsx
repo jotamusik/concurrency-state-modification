@@ -5,15 +5,28 @@ import { useNoConcurrencyManagement } from '../../context/NoConcurrencyManagemen
 
 export const NoConcurrencyManagementExample: FC = () => {
   const { processProgressMap, updateProgress } = useNoConcurrencyManagement()
-
   const [isStarted, setIsStarted] = React.useState<boolean>(false)
+
   const handleStartStopProcessProgress = () => {
     if (!isStarted) {
       setIsStarted(true)
     } else {
       setIsStarted(false)
+      window.location.reload()
     }
   }
+
+  React.useEffect(() => {
+    setInterval(() => {
+      if (isStarted) {
+        Object.keys(processProgressMap).forEach((id, index) => {
+          updateProgress(id, {
+            progress: processProgressMap[id].progress + 2
+          })
+        })
+      }
+    }, 2000)
+  }, [isStarted, processProgressMap, updateProgress])
 
   return <div className="Column">
     <h2>No Concurrency Management</h2>
@@ -27,7 +40,6 @@ export const NoConcurrencyManagementExample: FC = () => {
           key={id}
           id={id}
           value={processProgress}
-          onUpdateProcessProgress={updateProgress}
         />
       })}
     </div>
