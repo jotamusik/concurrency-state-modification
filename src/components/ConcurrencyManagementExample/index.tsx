@@ -12,7 +12,6 @@ export const ConcurrencyManagementExample: FC = () => {
     if (!isStarted) {
       setIsStarted(true)
     } else {
-      setIsStarted(false)
       window.location.reload()
     }
   }
